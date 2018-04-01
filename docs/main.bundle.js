@@ -123,7 +123,7 @@ var AppModule = /** @class */ (function () {
 /***/ "./src/app/footer/footer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section class=\"footer\">\n  <p class=\"footer__title\">Made with\n    <img src=\"/src/assets/icons/heart.png\" alt=\"heart\" style=\"height: 15px; width: 15px;\">\n    by\n    <span>\n      <a href=\"https://github.com/SierikovRoman\" target=\"_blank\" rel=\"noopener\" class=\"footer-author\"> Roman Sierikov </a>\n    </span>\n  </p>\n</section>"
+module.exports = "<section class=\"footer\">\n  <p class=\"footer__title\">Made with\n    <img src=\"assets/icons/heart.png\" alt=\"heart\" style=\"height: 15px; width: 15px;\">\n    by\n    <span>\n      <a href=\"https://github.com/SierikovRoman\" target=\"_blank\" rel=\"noopener\" class=\"footer-author\"> Roman Sierikov </a>\n    </span>\n  </p>\n</section>"
 
 /***/ }),
 
