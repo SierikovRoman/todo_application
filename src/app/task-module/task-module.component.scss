@@ -1,0 +1,135 @@
+/* Variables color */
+$black-color: #000;
+$white-color: #fff;
+$gray-color: rgb(180, 180, 180);
+$red-color: rgb(255, 0, 0);
+$green-color: rgb(0, 255, 85);
+
+button:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+input:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.task__module {
+    height: auto;
+    width: 100%;
+    &-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: $black-color;
+        text-align: center;
+    }
+    &-add {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        
+        &--button {
+            text-transform: uppercase;
+        }
+    }
+}
+
+.task__card {
+    height: auto;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0.5px solid rgba(158, 158, 158, 0.1);
+    border-radius: 5px;
+    box-shadow: 0 5px 10px 0px rgba(180, 180, 180, 0.2);
+    margin-top: 5px; 
+    padding: 10px;
+
+    &--title {
+        font-size: 18px;
+        font-weight: 200;
+        color: $black-color;
+    }
+    &-action {
+        text-align: right;
+    }
+}
+
+.table {
+    border: 1px solid rgba(65, 65, 65, 0.1);
+}
+
+.action_ac {
+    text-align: right; 
+    padding-right: 85px;
+}
+
+.down {
+    height: 10px; 
+    width: 10px; 
+    filter: invert(100%);
+    transform: rotate(180deg);
+    transition: 0.2s;
+}
+
+.up {
+    height: 10px; 
+    width: 10px; 
+    filter: invert(100%);
+    transform: rotate(360deg);
+    transition: 0.2s;    
+}
+
+
+@media screen and (max-width: 485px) {
+    
+    .task__module-add--button {
+        font-size: 11px;
+    }
+
+    .table {
+        &-title {
+            font-size: 11px;
+        }
+        &-data {
+            font-size: 11px;
+        }
+        &-btn {
+            font-size: 11px;
+        }
+    }
+
+    .action_id {
+        padding: 0.75rem 0.55rem;
+    }
+
+    .action_tl {
+        padding: 0.75rem 0.0rem;
+    }
+
+    .action_ac {
+        padding-right: 45px;
+    }
+
+    // .table th .action_th {
+    //     padding-right: 35px; 
+    // }
+
+    .down {
+        height: 5px; 
+        width: 5px; 
+        filter: invert(100%);
+        transform: rotate(180deg);
+        transition: 0.2s;
+    }
+    
+    .up {
+        height: 5px; 
+        width: 5px; 
+        filter: invert(100%);
+        transform: rotate(360deg);
+        transition: 0.2s;    
+    }
+
+}

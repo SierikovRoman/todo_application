@@ -1,0 +1,134 @@
+<section class="task__module">
+  <div class="container">
+    <p class="task__module-title">Your tasks:</p>
+
+    <p>You have: {{length}} taks</p>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <form class="form-inline my-2 my-lg-2">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search task . . ." [(ngModel)]="filter" name="search">
+        </form>
+      </div>
+      <div class="col-xs-12 col-sm-6 my-2 my-lg-2 task__module-add">
+          <button type="button" class="btn btn-outline-warning btn-sm task__module-add--button" data-toggle="modal" data-target="#addTaskModal">Add task</button>
+      </div>
+
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col" class="table-title action_id" (click)="sort('id')" style="cursor: pointer;">#
+              <img src="./assets/icons/arrow.png" alt="arrow" [ngClass]="{ 'down': !reverse, 'up': reverse }">
+            </th>
+            <th scope="col" class="table-title action_pr">Priority</th>
+            <th scope="col" class="table-title action_tl" (click)="sort('title')" style="cursor: pointer;">Title
+              <img src="./assets/icons/arrow.png" alt="arrow" [ngClass]="{ 'down': !reverse, 'up': reverse }">
+            </th>
+            <th scope="col" class="table-title action_bd">Body</th>
+            <th scope="col" class="table-title action_ac">Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="tasks">
+          <tr *ngFor="let task of tasks | orderBy: key : reverse | filter:filter; let i = index">
+            <th scope="row" class="table-data">{{task.id}}</th>
+            <td class="table-data">
+              <span class="badge badge-success" *ngIf="task.priority === 'success' ">Success</span>
+              <span class="badge badge-warning" *ngIf="task.priority === 'warning' ">Warning</span>
+              <span class="badge badge-danger" *ngIf="task.priority === 'danger' ">Danger</span>
+            </td>
+            <td class="table-data">{{task.title}}</td>
+            <td class="table-data" style="overflow: hidden; min-width: 14px; padding: 0.75rem 0.25rem;">{{task.body}}</td>
+            <td class="task__card-action">
+              <button type="button" class="btn btn-outline-primary btn-sm table-btn" (click)="editTask(task.id)" data-toggle="modal" data-target="#editTaskModal">EDIT</button>
+              <button type="button" class="btn btn-outline-danger btn-sm table-btn" (click)="removeTask(i)">DELETE</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+</section>
+
+
+<!-- Add Task Modal -->
+<div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="addTaskModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addTaskModal">Add new task</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #addTaskForm="ngForm">
+            <div class="form-group">
+              <label for="titleInput">Title</label>
+              <input #taskTitle="ngModel" type="text" class="form-control" id="titleInput" placeholder="Title" [(ngModel)]="newTaskTile" name="taskTile" required>
+              <div *ngIf="taskTitle.invalid && (taskTitle.dirty || taskTitle.touched)" class="alert alert-danger">
+                <div *ngIf="taskTitle.errors.required">Title is required.</div>
+              </div>
+            </div>
+            <div class="form-group">
+                <label for="bodyInput">Body</label>
+                <textarea #taskBody="ngModel" type="text" class="form-control" id="bodyInput" placeholder="Body" rows="3" [(ngModel)]="newTaskBody" name="taskBody" required></textarea>
+                <div *ngIf="taskBody.invalid && (taskBody.dirty || taskBody.touched)" class="alert alert-danger">
+                    <div *ngIf="taskBody.errors.required">Body is required.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="bodyInput">Priority</label>
+                <select #taskPriority="ngModel" [(ngModel)]="selectedPriority" name="priority" placeholder="selectpriority"  required>
+                  <option *ngFor="let p of priority" [value]="p.name">{{p.name}}</option>
+                </select>
+                <div *ngIf="taskPriority.invalid && (taskPriority.dirty || taskPriority.touched)" class="alert alert-danger">
+                    <div *ngIf="taskPriority.errors.required">Priority is required.</div>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info btn-block" (click)="addTask(taskTitle, taskBody, taskPriority); addTaskForm.reset()" [disabled]="!addTaskForm.form.valid">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Edit Task Modal -->
+<div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog" aria-labelledby="editTaskModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit task</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #editTaskForm="ngForm">
+            <div class="form-group">
+              <label for="titleInput">Title</label>
+              <input #editedTitle="ngModel" type="text" class="form-control" id="titleInput" placeholder="Title" value="{{edit_task.title}}" [(ngModel)]="editedTaskTitle" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="bodyInput">Body</label>
+                <textarea #editedBody="ngModel" type="text" class="form-control" id="bodyInput" placeholder="Body" rows="3" value="{{edit_task.body}}" [(ngModel)]="editedTaskBody" name="body" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="bodyInput">Priority</label>
+                <select #editedPriority="ngModel" [(ngModel)]="selectedPriority" name="priority" placeholder="selectpriority" value="{{edit_task.priority}}" required>
+                  <option *ngFor="let p of priority" [value]="p.name">{{p.name}}</option>
+                </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info btn-block" (click)="saveTask(editedTitle, editedBody, editedPriority)" [disabled]="!editTaskForm.form.valid">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
