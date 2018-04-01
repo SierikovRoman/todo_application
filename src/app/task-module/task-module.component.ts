@@ -36,11 +36,14 @@ export class TaskModuleComponent implements OnInit {
   getTasks() {
     this.tasks = this.ts.getTasks();
     this.length = this.tasks.length;
+    console.log(this.tasks);
   }
 
   // Remove task with specific id
   removeTask(id) {
     this.ts.removeTask(id);
+    const del_id = id + 1;
+    console.log('You delete task with id: ' + del_id);
     this.getTasks();
   }
 
@@ -49,8 +52,12 @@ export class TaskModuleComponent implements OnInit {
     const all_id = this.tasks.map(function(item) {
       return item.id;
     });
-    const max = Math.max(...all_id);
-    return max;
+    if (all_id.length === 0) {
+      return 0;
+    } else {
+      const max = Math.max(...all_id);
+      return max;
+    }
   }
 
   // Add new task
@@ -64,6 +71,7 @@ export class TaskModuleComponent implements OnInit {
       priority: priority.value
     };
     this.ts.addTask(task);
+    console.log('You add new task with id: ' + newId);
     this.getTasks();
     $('#addTaskModal').modal('hide');
   }
@@ -84,6 +92,8 @@ export class TaskModuleComponent implements OnInit {
     this.ts.saveTask(editedtask);
     this.getTasks();
     $('#editTaskModal').modal('hide');
+    console.log('You edited task with id: ' + this.edit_task.id);
+    console.log(this.tasks);
   }
 
   sort(key) {
